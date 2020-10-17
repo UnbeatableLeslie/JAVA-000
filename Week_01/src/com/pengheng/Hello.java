@@ -21,14 +21,14 @@ public class Hello {
         int _sub = _intArray[0] - _intArray[1];
         int _multil = _intArray[0] * _intArray[1];
         int _devided = _intArray[0] / _intArray[1];
-        double _devided2 = _intArray[0] * _intArray[1];
+        double _devided2 = _intArray[0] / _intArray[1];
 
         //if
         if (_intArray.length > 10) {
             System.out.println("size > 10");
         }
         //for
-        for (int i = 10; i < _int; i--) {
+        for (int i = 0; i < _intArray.length; i ++) {
             System.out.println(i);
         }
         for (int i : _intArray) {
@@ -157,12 +157,16 @@ public class Hello {
 //          定义数组开始  ================================================================
 //        java 源码 int[] _intArray = new int[]{100, 200};
 
+        /*初始化数组的固定动作： iconst_2  +  newarray  初始化指定长度的数组*/
 //        定义int值 2 压入栈顶
 //        20: iconst_2
 
 //        创建一个指定类型为int的数组 并压入到栈顶
 //        21: newarray       int
 
+        /*数组初始化值的固定操作  dump iconst_0 bipush iastore*/
+
+//     --------------------------------定义数组0号位置的值----------------------------------------------------------
 //        复制栈顶值，
 //        23: dup
 
@@ -174,6 +178,7 @@ public class Hello {
 
 //        将栈顶int型数值存入指定数组的指定索引位置
 //        27: iastore
+//     --------------------------------定义数组1号位置的值----------------------------------------------------------
 
 //        复制栈顶值，并压入栈顶
 //        28: dup
@@ -187,16 +192,23 @@ public class Hello {
 //        将栈顶int型数值存入指定数组的指定索引位置
 //        33: iastore
 
-//        将数组存在9号槽中
+//        将数组存在本地变量表的9号槽中
 //        34: astore        9
-//          定义数组结束  ================================================================
+//        加载出本地变量9号槽的数组数据
 //        36: aload         9
+//        将数据0 压入栈顶
 //        38: iconst_0
+//        将数组中前面定义的索引为 0 的指定数据加载到栈顶
 //        39: iaload
+//        将数组中前面定义的索引为 0 的的指定数据加载到栈顶
 //        40: aload         9
+//        将数组中前面定义的索引为 1 的指定数据加载到栈顶
 //        42: iconst_1
+//        将数组中前面定义的索引为 1 的的指定数据加载到栈顶
 //        43: iaload
+//        将栈顶两个int类型的数值相加 并压入栈顶
 //        44: iadd
+//        将结果存入到本地变量表10号中
 //        45: istore        10
 //        47: aload         9
 //        49: iconst_0
@@ -204,7 +216,9 @@ public class Hello {
 //        51: aload         9
 //        53: iconst_1
 //        54: iaload
+//        将栈顶两个int类型的数值相减并压到栈顶
 //        55: isub
+//        将栈顶数据存到本地变量11号槽中
 //        56: istore        11
 //        58: aload         9
 //        60: iconst_0
@@ -212,7 +226,9 @@ public class Hello {
 //        62: aload         9
 //        64: iconst_1
 //        65: iaload
+//        将栈顶两个int类型的数值相乘并压到栈顶
 //        66: imul
+//        将栈顶数据存到本地变量12号槽中
 //        67: istore        12
 //        69: aload         9
 //        71: iconst_0
@@ -220,25 +236,43 @@ public class Hello {
 //        73: aload         9
 //        75: iconst_1
 //        76: iaload
+//        将栈顶两个int类型的数值相除并压到栈顶
 //        77: idiv
+//        将栈顶数据存到本地变量13号槽中
 //        78: istore        13
+
+//          for i 循环开始
 //        80: aload         9
-//        82: arraylength
+//        获取数组长度
+//        82: arraylength 压入栈顶
+//        定义int值10 压入栈顶
 //        83: bipush        10
+//        判断栈顶两个int数值，如果栈第二个数值不小于等于栈顶数值 跳转到 96
 //        85: if_icmple     96
 //        88: getstatic     #7                  // Field java/lang/System.out:Ljava/io/PrintStream;
 //        91: ldc           #8                  // String size > 10
 //        93: invokevirtual #9                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+//          栈顶压入数值10
 //        96: bipush        10
+//          栈顶值存入本地变量表 14号槽
 //        98: istore        14
+//          将14号槽数据加载到栈顶
 //        100: iload         14
+//          将3号槽数据加载到栈顶
 //        102: iload_3
+//          判断栈顶两个值，不满足跳到 120
 //        103: if_icmpge     120
 //        106: getstatic     #7                  // Field java/lang/System.out:Ljava/io/PrintStream;
 //        109: iload         14
 //        111: invokevirtual #10                 // Method java/io/PrintStream.println:(I)V
+//          将本地变量表中14号槽的int对象 减1
 //        114: iinc          14, -1
+//          goto 关键字强制跳转到100
 //        117: goto          100
+
+//          for i 循环结束
+
+//          for each 循环开始
 //        120: aload         9
 //        122: astore        14
 //        124: aload         14
@@ -258,6 +292,9 @@ public class Hello {
 //        151: invokevirtual #10                 // Method java/io/PrintStream.println:(I)V
 //        154: iinc          16, 1
 //        157: goto          132
+
+//          for each 循环结束
+
 //        160: return
 //        LineNumberTable:
 //        line 12: 0
